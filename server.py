@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from mongo import getSongs, insertSong
 app = Flask(__name__)
 
 @app.route("/")
@@ -8,7 +9,9 @@ def hello():
 
 @app.route("/songs")
 def get_songs():
-    return ["1", "2", "3"]
+    return {
+        'songs': getSongs()
+    }
 
 @app.route("/songs/<song_id>")
 def get_song(song_id):
@@ -18,12 +21,10 @@ def get_song(song_id):
 def post_songs():
     data = request.form
     if data['song']:
-        song = data['song']
-    if data['lyrics']:
-        lyrics = data['lyrics']
-    print("processing new song")
+        song_id = insertSong(data['song'])
     return {
-        status: "200"
+        "status": "200",
+        "song_id": str(song_id)
     }
 
 if __name__ == "__main__":
