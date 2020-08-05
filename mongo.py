@@ -1,17 +1,27 @@
-import json
-from pymongo import MongoClient
+# import json
+# from pymongo import MongoClient
 
-def getDB():
-    client = MongoClient('localhost', 27017)
-    return client['rhymes']
+from flask import Flask
+from pymongo import MongoClient
+from constants import *
+
+client = MongoClient('mongodb://rhymes-db:27017/')
+db = client.rhymes
 
 def insertSong(song):
-    return getDB()['songs'].insert_one({"song": song}).inserted_id
+    songsCollection = db.songs
+    return songsCollection.insert({"song": song}).inserted_id
 
 def getSongs():
-    songs = getDB()['songs']
-    cursor = songs.find({})
-    total = []
+    songsCollection = db.songs
+    cursor = songsCollection.find({})
+    songs = []
     for document in cursor:
-        total.append({ "id": str(document["_id"]), "song": document["song"] })
-    return total
+        songs.append({ "id": str(document["_id"]), "song": document["song"] })
+    return songs
+    # songs = getDB()['songs']
+    # cursor = songs.find({})
+    # total = []
+    # for document in cursor:
+    #     total.append({ "id": str(document["_id"]), "song": document["song"] })
+    # return total

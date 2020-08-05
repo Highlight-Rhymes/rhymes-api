@@ -1,0 +1,22 @@
+version: '3.2'
+
+services:
+    rhymes-api:
+        container_name: rhymes-api
+        build: .
+        ports:
+            - "80:80"
+        volumes:
+            - .:/rhymes-api
+        links:
+            - rhymes-db
+
+    rhymes-db:
+        container_name: rhymes-db
+        image: mongo
+        # restart: always
+        volumes:
+            # - /Users/viitra/data/db
+            - /data/db
+        ports:
+            - "27017:27017"

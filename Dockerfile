@@ -1,3 +1,7 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8
+FROM python:3.8
 
-COPY ./src /src
+COPY . /src
+WORKDIR /src
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["main.py"]

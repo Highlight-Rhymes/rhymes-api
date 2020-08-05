@@ -21,13 +21,13 @@ def get_song(song_id):
 
 @app.route("/song", methods = ['POST'])
 def post_song():
-    data = request.form
-    if data['song']:
-        song_id = insertSong(data['song'])
-    return {
-        "status": "200",
-        "song_id": str(song_id)
-    }
+    song = request.form.get("song")
+    if song:
+        song_id = insertSong(song)
+        return {
+            "status": "200",
+            "song_id": str(song_id)
+        }
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True, port=80)
